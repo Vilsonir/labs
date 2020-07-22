@@ -1,0 +1,22 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
+Vagrant.configure("2") do |config|
+  config.vm.define "apache" do |apache|
+    apache.vm.network "private_network", ip: "192.168.33.11"
+    apache.vm.hostname = "apache"
+    apache.vm.box = "bento/centos-7.7"
+    apache.vm.provision "shell", path: "apache.sh"
+  end 
+  config.vm.define "mariadb" do |mariadb|
+    mariadb.vm.network "private_network", ip: "192.168.33.12"
+    mariadb.vm.hostname = "mariadb"
+    mariadb.vm.box = "bento/centos-7.7"
+    mariadb.vm.synced_folder ".", "/vagrant"
+    mariadb.vm.provision "shell", path: "mariadb.sh"
+  end 
+end
